@@ -1,10 +1,8 @@
-FROM ubuntu:18.04
+FROM alpine:3.10
 
-RUN apt-get -qq update \
-  && DEBIAN_FRONTEND=noninteractive apt-get -q -y install tshark daemontools pcaputils \
-  && setcap 'CAP_NET_RAW+eip CAP_NET_ADMIN+eip' /usr/bin/dumpcap
+RUN apk add --no-cache tshark coreutils
 
 VOLUME /logs
 
-CMD exec tshark -l -n -T ek | multilog s131072 n1000 /logs
+CMD exec tshark -l -n -T ek | grep -v '^{"index":' | split -l 100 - /logs/packets-
 
