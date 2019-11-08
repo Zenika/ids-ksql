@@ -5,24 +5,41 @@ Vagrant.configure("2") do |config|
   config.vm.define "tshark" do |tshark|
     tshark.vm.box = "hashicorp/bionic64"
     tshark.vm.network "private_network", ip: "192.168.33.10"
+    tshark.vm.hostname = "tshark"
     tshark.vm.provision "shell", path: "provision-tshark.sh"
+    tshark.vm.provider "virtualbox" do |vb|
+      vb.memory = "512"
+    end
   end
 
   config.vm.define "web" do |web|
     web.vm.box = "hashicorp/bionic64"
     web.vm.network "private_network", ip: "192.168.33.11"
+    web.vm.hostname = "web"
     web.vm.provision "shell", path: "provision-web.sh"
+    web.vm.provider "virtualbox" do |vb|
+      vb.memory = "512"
+    end    
   end
 
   config.vm.define "db" do |db|
     db.vm.box = "hashicorp/bionic64"
     db.vm.network "private_network", ip: "192.168.33.12"
+    db.vm.hostname = "db"
     db.vm.provision "shell", path: "provision-db.sh"
+    db.vm.provider "virtualbox" do |vb|
+      vb.memory = "512"
+    end
   end
 
   config.vm.define "intruder" do |intruder|
-    intruder.vm.box = "kalilinux/rolling"
+    intruder.vm.box = "hashicorp/bionic64"
     intruder.vm.network "private_network", ip: "192.168.33.66"
+    intruder.vm.hostname = "intruder"
+    intruder.vm.provision "shell", path: "provision-intruder.sh"
+    intruder.vm.provider "virtualbox" do |vb|
+      vb.memory = "512"
+    end
   end
 
   # config.vm.provider "virtualbox" do |vb|
