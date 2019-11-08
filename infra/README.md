@@ -8,6 +8,32 @@
 | 192.168.33.66 | intruder                     |
 |               |                              |
 
+# Vagrant installation (Ubuntu 18.04)
+
+## Install VirtualBox
+
+Edit `/etc/apt/sources.list.d/virtualbox.list`:
+```
+deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian bionic contrib
+```
+
+```
+wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+sudo apt update
+sudo apt-get install virtualbox-6.0
+```
+
+## Vagrant
+
+Install package from [here](https://releases.hashicorp.com/vagrant/2.2.6/vagrant_2.2.6_x86_64.deb)
+
+*Optionally* configure bash completion:
+
+```
+sudo cp /opt/vagrant/embedded/gems/2.2.6/gems/vagrant-2.2.6/contrib/bash/completion.sh /etc/bash_completion.d/vagrant
+```
+
+
 # Start machines
 
 ```
@@ -25,8 +51,10 @@ vagrant halt
 ```
 vagrant ssh tshark
 mkdir -p /vagrant/data
-docker run --net=host  -v /vagrant/data/logs:/logs -it --rm --privileged tshark
+docker run --net=host  -v /vagrant/data/logs:/logs -e INTERFACE=eth1 -it --rm --privileged tshark
 ```
+
+Data will be created in `infra/data/logs` directory.
 
 # Attack simulation
 
