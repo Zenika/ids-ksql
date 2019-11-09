@@ -1,0 +1,159 @@
+{
+	"info": {
+		"_postman_id": "9d9ff8ff-681b-46b2-8882-a52d7e9b6d88",
+		"name": "Kafka IDS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Connectors",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"network-traffic-connector\",\n    \"connector.class\": \"com.github.jcustenborder.kafka.connect.spooldir.SpoolDirSchemaLessJsonSourceConnector\",\n    \"tasks.max\": \"1\",\n    \"input.path\": \"/data/input\",\n    \"input.file.pattern\": \"packets-.*\",\n    \"error.path\": \"/data/error\",\n    \"finished.path\": \"/data/finished\",\n    \"halt.on.error\": false,\n    \"topic\": \"network-traffic\",\n    \"value.converter\": \"org.apache.kafka.connect.storage.StringConverter\",\n    \"empty.poll.wait.ms\": 1000,\n    \"batch.size\": 10\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8083/connectors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Network Traffic Connector",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"network-traffic-connector\",\n    \"connector.class\": \"com.github.jcustenborder.kafka.connect.spooldir.SpoolDirSchemaLessJsonSourceConnector\",\n    \"tasks.max\": \"1\",\n    \"input.path\": \"/data/input\",\n    \"input.file.pattern\": \"packets-.*\",\n    \"error.path\": \"/data/error\",\n    \"finished.path\": \"/data/finished\",\n    \"halt.on.error\": false,\n    \"topic\": \"network-traffic\",\n    \"value.converter\": \"org.apache.kafka.connect.storage.StringConverter\",\n    \"empty.poll.wait.ms\": 1000,\n    \"batch.size\": 10\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8083/connectors/network-traffic-connector",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors",
+						"network-traffic-connector"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Network Traffic Connector",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"network-traffic-connector\",\n    \"connector.class\": \"com.github.jcustenborder.kafka.connect.spooldir.SpoolDirSchemaLessJsonSourceConnector\",\n    \"tasks.max\": \"1\",\n    \"input.path\": \"/data/input\",\n    \"input.file.pattern\": \"packets-.*\",\n    \"error.path\": \"/data/error\",\n    \"finished.path\": \"/data/finished\",\n    \"halt.on.error\": false,\n    \"topic\": \"network-traffic\",\n    \"value.converter\": \"org.apache.kafka.connect.storage.StringConverter\",\n    \"empty.poll.wait.ms\": 500,\n    \"batch.size\": 1000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8083/connectors/network-traffic-connector/config",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors",
+						"network-traffic-connector",
+						"config"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Network Traffic Connector",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"network-traffic-connector\",\n    \"config\": {\n        \"name\": \"network-traffic-connector\",\n        \"connector.class\": \"com.github.jcustenborder.kafka.connect.spooldir.SpoolDirSchemaLessJsonSourceConnector\",\n        \"tasks.max\": \"1\",\n        \"input.path\": \"/data/input\",\n        \"input.file.pattern\": \"packets-.*\",\n        \"error.path\": \"/data/error\",\n        \"finished.path\": \"/data/finished\",\n        \"halt.on.error\": false,\n        \"topic\": \"network-traffic\",\n        \"value.converter\": \"org.apache.kafka.connect.storage.StringConverter\",\n        \"empty.poll.wait.ms\": 500,\n        \"batch.size\": 1000\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8083/connectors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
