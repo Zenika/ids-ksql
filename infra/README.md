@@ -62,14 +62,15 @@ vagrant up
 vagrant halt
 ```
 
+# Clean machines
+
+```
+vagrant destroy -f
+```
+
 # Start tshark agent
 
-```
-vagrant ssh tshark
-mkdir -p /vagrant/data
-docker run --net=host  -v /vagrant/data/logs:/logs -e INTERFACE=eth1 -it --rm --privileged tshark
-```
-
+Automatically started.
 Data will be created in `infra/data/logs` directory.
 
 # Attack simulation

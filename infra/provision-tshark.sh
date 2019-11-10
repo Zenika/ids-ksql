@@ -1,6 +1,7 @@
 #!/bin/sh
 
 apt-get update -qq
+apt-get install -qy avahi-daemon
 apt-get install -qy apt-transport-https \
         ca-certificates\
         curl \
@@ -26,3 +27,7 @@ cd ids-ksql/tshark
 
 docker build -t tshark .
 
+cp /vagrant/tshark.service /etc/systemd/system
+systemctl daemon-reload
+systemctl enable tshark.service
+systemctl start tshark.service
