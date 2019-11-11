@@ -88,7 +88,6 @@ services:
       KSQL_HOST_NAME: ksql-server
       KSQL_APPLICATION_ID: "ksql-ids"
       KSQL_LISTENERS: "http://0.0.0.0:8088"
-      KSQL_CACHE_MAX_BYTES_BUFFERING: 0
       KSQL_PRODUCER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor"
       KSQL_CONSUMER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor"
       KSQL_KSQL_SERVER_UI_ENABLED: "false"
