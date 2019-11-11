@@ -48,7 +48,7 @@ services:
     ports:
       - "8083:8083"
     volumes:
-      - ./data:/data
+      - ./infra/data:/data
     networks:
       - confluent
     environment:
