@@ -7,23 +7,14 @@ To start the connector that will read the network packets from the JSON files an
 ```bash
 curl -X POST \
   http://localhost:8083/connectors \
-  -H 'Accept: */*' \
-  -H 'Accept-Encoding: gzip, deflate' \
-  -H 'Cache-Control: no-cache' \
-  -H 'Connection: keep-alive' \
-  -H 'Content-Length: 623' \
   -H 'Content-Type: application/json' \
-  -H 'Host: localhost:8083' \
-  -H 'Postman-Token: 81a9a2bd-11e6-4601-9a8e-9ec67d255f6a,3b200420-2923-43cb-a268-5fcd962e4fa2' \
-  -H 'User-Agent: PostmanRuntime/7.19.0' \
-  -H 'cache-control: no-cache' \
   -d '{
     "name": "network-traffic-connector",
     "config": {
         "name": "network-traffic-connector",
         "connector.class": "com.github.jcustenborder.kafka.connect.spooldir.SpoolDirSchemaLessJsonSourceConnector",
         "tasks.max": "1",
-        "input.path": "/data/input",
+        "input.path": "/data/logs",
         "input.file.pattern": "packets-.*",
         "error.path": "/data/error",
         "finished.path": "/data/finished",
