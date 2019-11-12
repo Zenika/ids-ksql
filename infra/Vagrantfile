@@ -20,7 +20,7 @@ Vagrant.configure("2") do |config|
     web.vm.hostname = "web"
     web.vm.provision "shell", path: "provision-web.sh"
     web.vm.provider "virtualbox" do |vb|
-      vb.memory = "512"
+      vb.memory = "1024"
     end    
   end
 

@@ -50,6 +50,14 @@ sudo cp /opt/vagrant/embedded/gems/2.2.6/gems/vagrant-2.2.6/contrib/bash/complet
 ```
 
 
+# Build app
+
+Go to `infra/app`
+```
+cd infra/app
+./mvnw -Pprod
+```
+
 # Start machines
 
 ```

@@ -1,0 +1,80 @@
+<div>
+    <h2 id="page-heading">
+        <span>Job Histories</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-job-history" [routerLink]="['/job-history/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create a new Job History
+            </span>
+        </button>
+    </h2>
+    <jhi-alert-error></jhi-alert-error>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="jobHistories?.length === 0">
+        <span>No jobHistories found</span>
+    </div>
+    <div class="table-responsive" *ngIf="jobHistories?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="startDate"><span>Start Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="endDate"><span>End Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="language"><span>Language</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="job.id"><span>Job</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="department.id"><span>Department</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"  jhiSortBy="employee.id"><span>Employee</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let jobHistory of jobHistories ;trackBy: trackId">
+                <td><a [routerLink]="['/job-history', jobHistory.id, 'view' ]">{{jobHistory.id}}</a></td>
+                <td>{{jobHistory.startDate | date:'medium'}}</td>
+                <td>{{jobHistory.endDate | date:'medium'}}</td>
+                <td>{{jobHistory.language}}</td>
+                <td>
+                    <div *ngIf="jobHistory.job">
+                        <a [routerLink]="['/job', jobHistory.job?.id, 'view' ]" >{{jobHistory.job?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="jobHistory.department">
+                        <a [routerLink]="['/department', jobHistory.department?.id, 'view' ]" >{{jobHistory.department?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="jobHistory.employee">
+                        <a [routerLink]="['/employee', jobHistory.employee?.id, 'view' ]" >{{jobHistory.employee?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/job-history', jobHistory.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/job-history', jobHistory.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/job-history', { outlets: { popup: jobHistory.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

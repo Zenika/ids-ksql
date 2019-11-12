@@ -1,0 +1,70 @@
+<div>
+    <h2 id="page-heading">
+        <span>Locations</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-location" [routerLink]="['/location/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create a new Location
+            </span>
+        </button>
+    </h2>
+    <jhi-alert-error></jhi-alert-error>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="locations?.length === 0">
+        <span>No locations found</span>
+    </div>
+    <div class="table-responsive" *ngIf="locations?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr>
+            <th scope="col" ><span>ID</span></th>
+            <th scope="col" ><span>Street Address</span></th>
+            <th scope="col" ><span>Postal Code</span></th>
+            <th scope="col" ><span>City</span></th>
+            <th scope="col" ><span>State Province</span></th>
+            <th scope="col" ><span>Country</span></th>
+            <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let location of locations ;trackBy: trackId">
+                <td><a [routerLink]="['/location', location.id, 'view' ]">{{location.id}}</a></td>
+                <td>{{location.streetAddress}}</td>
+                <td>{{location.postalCode}}</td>
+                <td>{{location.city}}</td>
+                <td>{{location.stateProvince}}</td>
+                <td>
+                    <div *ngIf="location.country">
+                        <a [routerLink]="['/country', location.country?.id, 'view' ]" >{{location.country?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/location', location.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/location', location.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/location', { outlets: { popup: location.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,64 @@
+<div>
+    <h2 id="page-heading">
+        <span>Countries</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-country" [routerLink]="['/country/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create a new Country
+            </span>
+        </button>
+    </h2>
+    <jhi-alert-error></jhi-alert-error>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="countries?.length === 0">
+        <span>No countries found</span>
+    </div>
+    <div class="table-responsive" *ngIf="countries?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr>
+            <th scope="col" ><span>ID</span></th>
+            <th scope="col" ><span>Country Name</span></th>
+            <th scope="col" ><span>Region</span></th>
+            <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let country of countries ;trackBy: trackId">
+                <td><a [routerLink]="['/country', country.id, 'view' ]">{{country.id}}</a></td>
+                <td>{{country.countryName}}</td>
+                <td>
+                    <div *ngIf="country.region">
+                        <a [routerLink]="['/region', country.region?.id, 'view' ]" >{{country.region?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/country', country.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/country', country.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/country', { outlets: { popup: country.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

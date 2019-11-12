@@ -1,0 +1,38 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.zenika.ids"
+    },
+    "jhipsterVersion": "6.5.0",
+    "applicationType": "monolith",
+    "baseName": "app",
+    "packageName": "com.zenika.ids",
+    "packageFolder": "com/zenika/ids",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "no",
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "postgresql",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "MWJhYjY5MmI4MWNmOWYyOTk1NTE4Yzk2MmVhZmY1ZTM5NDNkNTliOTQ5YWFjMDk2MTc4ZTRmMTc0ZTdhOGI4NDRkNDVhY2EwYzkzZmIxM2JlMzI0OWFhOTEwNTUyMDQyZTU0NzVmMWY2NWU0YmIwYzIzMDg2MmZkMDJkNjU3MDM=",
+    "embeddableLaunchScript": false,
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "clientFramework": "angularX",
+    "clientTheme": "cosmo",
+    "clientThemeVariant": "primary",
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "blueprints": []
+  }
+}

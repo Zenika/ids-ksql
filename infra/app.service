@@ -1,0 +1,11 @@
+[Unit]
+Description=Sample webapp
+
+[Service]
+Restart=on-failure
+RestartSec=10
+ExecStart=/usr/bin/java -jar /vagrant/app/target/app-0.0.1-SNAPSHOT.jar \
+                        --spring.profiles.active=prod
+
+[Install]
+WantedBy=multi-user.target
