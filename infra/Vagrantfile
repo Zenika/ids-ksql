@@ -9,6 +9,8 @@ Vagrant.configure("2") do |config|
     tshark.vm.provision "shell", path: "provision-tshark.sh"
     tshark.vm.provider "virtualbox" do |vb|
       vb.memory = "512"
+      # enable promiscuous mode on the private network
+      vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-vms"]
     end
   end
 
