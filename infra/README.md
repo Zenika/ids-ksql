@@ -83,7 +83,14 @@ Data will be created in `infra/data/logs` directory.
 
 # Attack simulation
 
+## Port scan
 ```
 vagrant ssh intruder
 nmap -n -sT -sV -sC 192.168.33.0/24
+```
+
+## DDoS
+```
+vagrant ssh intruder
+perl slowloris.pl/slowloris.pl -dns 192.168.33.11
 ```
