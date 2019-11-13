@@ -2,6 +2,12 @@
 Demo project for (Intrusion Detection System) IDS with KSQL and Kafka
 
 
+## Create the topic that will contain the network traffic
+
+```bash
+docker-compose exec kafka kafka-topics --zookeeper zookeeper:2181 --create --topic network-traffic --partitions 1 --replication-factor 1
+``` 
+
 ## Start the connector for producing packets
 To start the connector that will read the network packets from the JSON files and write it to a Kafka topic, use the following command :
 ```bash
