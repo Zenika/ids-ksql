@@ -24,3 +24,4 @@ hs_err_pid*
 data/
 *~
 .vagrant
+infra/cache/

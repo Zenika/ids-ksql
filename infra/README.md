@@ -55,14 +55,29 @@ sudo cp /opt/vagrant/embedded/gems/2.2.6/gems/vagrant-2.2.6/contrib/bash/complet
 Go to `infra/app`
 ```
 cd infra/app
-./mvnw -Pprod
+./mvnw -Pprod package
 ```
 
 # Start machines
 
+_Optionnaly_, you can start `apt-cacher-ng` before provisioning other VMs with:
+
+```
+vagrant up aptcache
+```
+This will cache all `deb` packages under `cache` directory.
+
+
 ```
 vagrant up
 ```
+
+When VMs are provisionned, you can stop `apt-cacher`:
+
+```
+vagrant halt aptcache
+```
+
 
 # Stop machines
 

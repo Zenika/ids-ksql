@@ -1,6 +1,27 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+$script = <<-SCRIPT
+cat <<EOF > /etc/apt/apt.conf.d/01acng
+Acquire::http {
+        Proxy-Auto-Detect "/vagrant/detect-proxy.sh";
+        };
+
+EOF
+SCRIPT
+
 Vagrant.configure("2") do |config|
+  config.vm.provision "shell", inline: $script
+
+  config.vm.define "aptcache", autostart: false do |aptcache|
+    aptcache.vm.box = "hashicorp/bionic64"
+    aptcache.vm.network "private_network", ip: "192.168.33.9"
+    aptcache.vm.hostname = "aptcache"
+    aptcache.vm.provision "shell", path: "provision-apt_cacher_ng.sh"
+    aptcache.vm.provider "virtualbox" do |vb|
+      vb.memory = "512"
+    end
+    aptcache.vm.synced_folder ".", "/vagrant", mount_options: ["uid=112", "gid=115"]
+  end
 
   config.vm.define "tshark" do |tshark|
     tshark.vm.box = "hashicorp/bionic64"

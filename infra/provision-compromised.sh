@@ -6,4 +6,4 @@ apt-get install -qy nmap sqlmap python3 python3-scapy netcat-openbsd slowhttptes
 
 echo '* *    * * *   vagrant   /vagrant/simulate-activity.sh' >> /etc/crontab
 
-git clone https://github.com/llaera/slowloris.pl /home/vagrant/slowloris.pl
+git clone https://github.com/llaera/slowloris.pl /home/vagrant/slowloris.pl || true
