@@ -5,7 +5,7 @@
 | 192.168.33.10 | tshark                       |
 | 192.168.33.11 | web (nginx on port 80)       |
 | 192.168.33.12 | db (postgresql on port 5432) |
-| 192.168.33.66 | intruder                     |
+| 192.168.33.66 | compromised                  |
 |               |                              |
 
 ```
@@ -85,12 +85,12 @@ Data will be created in `infra/data/logs` directory.
 
 ## Port scan
 ```
-vagrant ssh intruder
+vagrant ssh compromised
 nmap -n -sT -sV -sC 192.168.33.0/24
 ```
 
 ## DDoS
 ```
-vagrant ssh intruder
+vagrant ssh compromised
 perl slowloris.pl/slowloris.pl -dns 192.168.33.11
 ```
