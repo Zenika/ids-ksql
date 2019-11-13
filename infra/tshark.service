@@ -13,6 +13,7 @@ ExecStartPre=-/usr/bin/docker rm ${NAME}
 ExecStart=/usr/bin/docker run --name tshark \
                           -v /vagrant/data/logs:/logs \
                           -e INTERFACE=eth1 \
+                          -e LINES_BY_FILE=500 \
                           --privileged \
                           --net=host \
                           tshark

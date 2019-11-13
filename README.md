@@ -27,7 +27,7 @@ curl -X POST \
         "halt.on.error": false,
         "topic": "network-traffic",
         "value.converter": "org.apache.kafka.connect.storage.StringConverter",
-        "empty.poll.wait.ms": 500,
+        "empty.poll.wait.ms": 100,
         "batch.size": 1000
     }
 }'
