@@ -29,12 +29,20 @@ CREATE STREAM NETWORK_TRAFFIC_NESTED
 			tcp_flags_tcp_flags_syn VARCHAR,
 			tcp_flags_tcp_flags_ack VARCHAR>,
 		http STRUCT<
+			http_http_host VARCHAR,
+			http_http_request_full_uri VARCHAR,
+			text_http_request_method VARCHAR,
+			text_http_request_version VARCHAR,
+			http_http_authorization VARCHAR,
+			http_http_user_agent VARCHAR,
+
 			text_http_response_version VARCHAR,
 			text_http_response_code VARCHAR,
 			text_http_response_phrase VARCHAR,
 			http_http_content_type VARCHAR,
 			http_http_response_line array<VARCHAR>,
-			http_http_response_for_uri VARCHAR>>
+			http_http_response_for_uri VARCHAR,
+			http_http_file_data VARCHAR>>
 ) 
 WITH (KAFKA_TOPIC='network-traffic', TIMESTAMP='timestamp', VALUE_FORMAT='JSON');
 
@@ -61,13 +69,29 @@ AS SELECT
 	layers->tcp->tcp_tcp_ack as tcp_ack,
 	layers->tcp->tcp_flags_tcp_flags_syn as tcp_flags_syn,
 	layers->tcp->tcp_flags_tcp_flags_ack as tcp_flags_ack,
+
+	layers->http->http_http_host as http_host,
+	layers->http->http_http_request_full_uri as http_request_full_uri,
+	layers->http->text_http_request_method as http_request_method,
+	layers->http->text_http_request_version as http_request_version,
+	layers->http->http_http_authorization as http_authorization,
+	layers->http->http_http_user_agent as http_user_agent,
+
 	layers->http->text_http_response_version as http_response_version,
 	layers->http->text_http_response_code as http_response_code,
 	layers->http->text_http_response_phrase as http_response_phrase,
 	layers->http->http_http_content_type as http_content_type,
 	layers->http->http_http_response_line as http_response_line,
-	layers->http->http_http_response_for_uri as http_response_for_uri
+	layers->http->http_http_response_for_uri as http_response_for_uri,
+	layers->http->http_http_file_data as http_file_data
 FROM NETWORK_TRAFFIC_NESTED;
+
+
+-- Nb connections per protocol
+CREATE table connections_per_protocols AS
+SELECT frame_protocols, count(*) AS count
+FROM NETWORK_TRAFFIC_FLAT
+GROUP BY frame_protocols;
 
 
 -- Nb connections per ip_source
