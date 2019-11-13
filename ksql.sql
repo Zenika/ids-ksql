@@ -22,6 +22,7 @@ CREATE STREAM NETWORK_TRAFFIC_NESTED
 			ip_ip_len VARCHAR,
 			ip_ip_proto VARCHAR>,
 		tcp STRUCT<
+			tcp_tcp_stream VARCHAR,
 			tcp_tcp_srcport VARCHAR,
 			tcp_tcp_dstport VARCHAR,
 			tcp_tcp_flags VARCHAR,
@@ -63,6 +64,8 @@ AS SELECT
 	layers->ip->ip_ip_checksum as ip_checksum,
 	layers->ip->ip_ip_len as ip_length,
 	layers->ip->ip_ip_proto as ip_protocol,
+
+	layers->tcp->tcp_tcp_stream as tcp_stream,
 	layers->tcp->tcp_tcp_srcport as tcp_port_source,
 	layers->tcp->tcp_tcp_dstport as tcp_port_dest,
 	layers->tcp->tcp_tcp_flags as tcp_flags,
@@ -132,7 +135,12 @@ GROUP BY ip_dest, window_start
 HAVING count(*) > 20;
 
 
-
-
-
-
+-- Detect Slowloris attacks
+CREATE TABLE potiental_slowloris_attacks
+AS SELECT
+	ip_dest, count(*) as count_connection_reset
+FROM NETWORK_TRAFFIC_FLAT
+WINDOW TUMBLING (SIZE 60 SECONDS)
+WHERE tcp_flags = '0x00000014'
+GROUP BY ip_dest
+HAVING count(*) > 100;
