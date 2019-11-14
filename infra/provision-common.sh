@@ -8,16 +8,14 @@ cp /lib/systemd/system/metricbeat.service /etc/systemd/system/
 sed -i \
     "/\[Service\]/a Environment=\"BEATS_ENV_OPTS=-E HOSTNAME=$(hostname)\"" \
     /etc/systemd/system/metricbeat.service
+
 sed -i \
-    's!^\(ExecStart=/usr/share/metricbeat/bin/metricbeat $BEAT_LOG_OPTS $BEAT_CONFIG_OPTS $BEAT_PATH_OPTS\).*$!\1 $BEATS_ENV_OPTS!' \
+    "s!^\(ExecStart\)=\(/usr/share/metricbeat/bin/metricbeat \$BEAT_LOG_OPTS \$BEAT_CONFIG_OPTS \$BEAT_PATH_OPTS\).*\$!\1=/bin/sh -c \"\2 \$BEATS_ENV_OPTS | split -l 5 - /vagrant/data/metrics/metricbeat-$(date '+%s')-$(hostname)-\"!" \
     /etc/systemd/system/metricbeat.service
 
 cat<<EOF >> /etc/metricbeat/metricbeat.yml
-# File output
-output.file:
-  path: "/vagrant/data/metrics"
-  filename: 'metricbeat-${HOSTNAME}'
-
+# Console output
+output.console:
 EOF
 
 sed -i 's/^\(output.elasticsearch\)/#\1/; s/\(  hosts: \["localhost:9200"\]\)/#\1/' /etc/metricbeat/metricbeat.yml
