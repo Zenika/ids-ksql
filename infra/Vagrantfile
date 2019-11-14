@@ -11,6 +11,7 @@ SCRIPT
 
 Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: $script
+  config.vm.provision "shell", path: "provision-common.sh"
 
   config.vm.define "aptcache", autostart: false do |aptcache|
     aptcache.vm.box = "hashicorp/bionic64"
