@@ -8,10 +8,12 @@ CREATE STREAM NETWORK_TRAFFIC_NESTED
 	layers STRUCT<
 		frame STRUCT<
 			frame_frame_time VARCHAR,
-			frame_frame_protocols VARCHAR>,
+			frame_frame_protocols VARCHAR
+		>,
 		eth STRUCT<
 			eth_eth_src VARCHAR,
-			eth_eth_dst VARCHAR>,
+			eth_eth_dst VARCHAR
+		>,
 		ip STRUCT<
 			ip_ip_src VARCHAR,
 			ip_ip_src_host VARCHAR,
@@ -20,15 +22,26 @@ CREATE STREAM NETWORK_TRAFFIC_NESTED
 			ip_ip_flags VARCHAR,
 			ip_ip_checksum VARCHAR,
 			ip_ip_len VARCHAR,
-			ip_ip_proto VARCHAR>,
+			ip_ip_proto VARCHAR
+		>,
 		tcp STRUCT<
 			tcp_tcp_stream VARCHAR,
 			tcp_tcp_srcport VARCHAR,
 			tcp_tcp_dstport VARCHAR,
 			tcp_tcp_flags VARCHAR,
 			tcp_tcp_ack VARCHAR,
+			tcp_flags_tcp_flags_res VARCHAR,
+			tcp_flags_tcp_flags_ns VARCHAR,
+			tcp_flags_tcp_flags_cwr VARCHAR,
+			tcp_flags_tcp_flags_ecn VARCHAR,
+			tcp_flags_tcp_flags_urg VARCHAR,
+			tcp_flags_tcp_flags_ack VARCHAR,
+			tcp_flags_tcp_flags_push VARCHAR,
+			tcp_flags_tcp_flags_reset VARCHAR,
 			tcp_flags_tcp_flags_syn VARCHAR,
-			tcp_flags_tcp_flags_ack VARCHAR>,
+			tcp_flags_tcp_flags_fin VARCHAR,
+			tcp_flags_tcp_flags_str VARCHAR
+		>,
 		http STRUCT<
 			http_http_host VARCHAR,
 			http_http_request_full_uri VARCHAR,
@@ -43,7 +56,9 @@ CREATE STREAM NETWORK_TRAFFIC_NESTED
 			http_http_content_type VARCHAR,
 			http_http_response_line array<VARCHAR>,
 			http_http_response_for_uri VARCHAR,
-			http_http_file_data VARCHAR>>
+			http_http_file_data VARCHAR
+		>
+	>
 ) 
 WITH (KAFKA_TOPIC='network-traffic', TIMESTAMP='timestamp', VALUE_FORMAT='JSON');
 
@@ -70,8 +85,17 @@ AS SELECT
 	layers->tcp->tcp_tcp_dstport as tcp_port_dest,
 	layers->tcp->tcp_tcp_flags as tcp_flags,
 	layers->tcp->tcp_tcp_ack as tcp_ack,
-	layers->tcp->tcp_flags_tcp_flags_syn as tcp_flags_syn,
+	layers->tcp->tcp_flags_tcp_flags_res as tcp_flags_res,
+	layers->tcp->tcp_flags_tcp_flags_ns as tcp_flags_ns,
+	layers->tcp->tcp_flags_tcp_flags_cwr as tcp_flags_cwr,
+	layers->tcp->tcp_flags_tcp_flags_ecn as tcp_flags_ecn,
+	layers->tcp->tcp_flags_tcp_flags_urg as tcp_flags_urg,
 	layers->tcp->tcp_flags_tcp_flags_ack as tcp_flags_ack,
+	layers->tcp->tcp_flags_tcp_flags_push as tcp_flags_push,
+	layers->tcp->tcp_flags_tcp_flags_reset as tcp_flags_reset,
+	layers->tcp->tcp_flags_tcp_flags_syn as tcp_flags_syn,
+	layers->tcp->tcp_flags_tcp_flags_fin as tcp_flags_fin,
+	layers->tcp->tcp_flags_tcp_flags_str as tcp_flags_str,
 
 	layers->http->http_http_host as http_host,
 	layers->http->http_http_request_full_uri as http_request_full_uri,
@@ -97,22 +121,6 @@ FROM NETWORK_TRAFFIC_FLAT
 GROUP BY frame_protocols;
 
 
--- Nb connections per ip_source
-CREATE table connections_per_ip_source AS
-SELECT ip_source, count(*) AS count
-FROM NETWORK_TRAFFIC_FLAT
-WHERE ip_source IS NOT NULL
-GROUP BY ip_source;
-
-
--- Nb connections per ip_dest
-CREATE TABLE connections_per_ip_dest AS
-SELECT ip_dest, count(*) AS count 
-FROM NETWORK_TRAFFIC_FLAT 
-WHERE ip_dest IS NOT NULL
-GROUP BY ip_dest;
-
-
 -- Nb connection per ip per port per 60 sec
 CREATE TABLE connections_per_ip_per_port_per_60sec
 AS SELECT
@@ -136,11 +144,11 @@ HAVING count(*) > 20;
 
 
 -- Detect Slowloris attacks
-CREATE TABLE potiental_slowloris_attacks
+CREATE TABLE potential_slowloris_attacks
 AS SELECT
 	ip_dest, count(*) as count_connection_reset
 FROM NETWORK_TRAFFIC_FLAT
 WINDOW TUMBLING (SIZE 60 SECONDS)
-WHERE tcp_flags = '0x00000014'
+WHERE tcp_flags_ack = '1' AND tcp_flags_reset = '1'
 GROUP BY ip_dest
 HAVING count(*) > 100;
