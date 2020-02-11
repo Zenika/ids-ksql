@@ -73,7 +73,8 @@ services:
 
 
   ksql-server:
-    image: confluentinc/cp-ksql-server:5.4.0
+    build: ksqldb
+#    image: confluentinc/cp-ksql-server:5.4.0
     container_name: ksql-server
     depends_on:
       - kafka
