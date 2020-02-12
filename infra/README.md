@@ -5,7 +5,8 @@
 | 192.168.33.10 | tshark                       |
 | 192.168.33.11 | web (nginx on port 80)       |
 | 192.168.33.12 | db (postgresql on port 5432) |
-| 192.168.33.66 | compromised                  |
+| 192.168.33.66 | workstation-1 (compromised)  |
+| 192.168.33.77 | workstation-2                |
 |               |                              |
 
 ```

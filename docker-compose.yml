@@ -37,6 +37,7 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_MIN_INSYNC_REPLICAS: 1
+      KAFKA_MESSAGE_MAX_BYTES: 4000048
 
   connect:
     image: confluentinc/cp-kafka-connect:5.4.0
