@@ -21,7 +21,7 @@ curl -X POST \
         "connector.class": "com.github.jcustenborder.kafka.connect.spooldir.SpoolDirSchemaLessJsonSourceConnector",
         "tasks.max": "1",
         "input.path": "/data/logs",
-        "input.file.pattern": "packets-.*",
+        "input.file.pattern": "packets-.*.ok",
         "error.path": "/data/error",
         "finished.path": "/data/finished",
         "halt.on.error": false,
