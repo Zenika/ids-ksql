@@ -125,8 +125,22 @@ services:
               properties:
                 bootstrap.servers: "kafka:9092"
               connect:
-                url: "http://connect:8083"
+                - name: Connect
+                  url: "http://connect:8083"
 
+  kafka-specs:
+    build: kafka-specs/
+    container_name: kafka-specs
+    volumes:
+      - ${PWD}/kafka-specs/kafka-stack-spec.yml:/kafka-stack-spec.yml
+    depends_on:
+      - kafka
+    command:
+      - kafka:9092
+    environment:
+      - KAFKA_SPECS_YAML=/kafka-stack-spec.yml
+    networks:
+      - confluent
 
 networks:
   confluent:

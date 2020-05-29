@@ -1,0 +1,7 @@
+version: 1
+topics:
+  - name: network-traffic
+    partitions: 3
+    replication_factor: 1
+    configs:
+      min.insync.replicas: '1'
