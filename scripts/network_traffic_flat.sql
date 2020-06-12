@@ -45,3 +45,5 @@ AS SELECT
 	layers->http->http_http_response_for_uri as http_response_for_uri,
 	layers->http->http_http_file_data as http_file_data
 FROM NETWORK_TRAFFIC_NESTED;
+
+SELECT ip_source, ip_dest FROM network_traffic_flat EMIT CHANGES LIMIT 10;

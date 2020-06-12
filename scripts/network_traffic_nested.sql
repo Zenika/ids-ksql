@@ -45,7 +45,6 @@ CREATE STREAM NETWORK_TRAFFIC_NESTED
 			text_http_request_version VARCHAR,
 			http_http_authorization VARCHAR,
 			http_http_user_agent VARCHAR,
-
 			text_http_response_version VARCHAR,
 			text_http_response_code VARCHAR,
 			text_http_response_phrase VARCHAR,
@@ -57,3 +56,5 @@ CREATE STREAM NETWORK_TRAFFIC_NESTED
 	>
 ) 
 WITH (KAFKA_TOPIC='network-traffic', TIMESTAMP='timestamp', VALUE_FORMAT='JSON');
+
+SELECT layers->ip->ip_ip_src_host FROM network_traffic_nested EMIT CHANGES LIMIT 10;

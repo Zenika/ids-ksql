@@ -1,6 +1,10 @@
-CREATE TABLE potential_port_scan_attacks 
-AS SELECT 
-	window_start, ip_dest, count(*) AS count_scan 
-FROM connections_per_ip_per_port_per_60sec
-GROUP BY ip_dest, window_start
-HAVING count(*) > 20;
+DROP TABLE IF EXISTS potential_port_scan_attacks;
+
+CREATE TABLE potential_port_scan_attacks
+AS SELECT
+   ip_source,
+   COUNT_DISTINCT(ip_dest + tcp_port_dest)
+FROM NETWORK_TRAFFIC_FLAT
+WINDOW TUMBLING (SIZE 60 SECONDS)
+GROUP BY ip_source
+HAVING COUNT_DISTINCT(ip_dest + tcp_port_dest) > 1000;
