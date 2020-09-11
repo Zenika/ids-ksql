@@ -1,8 +1,8 @@
-FROM gradle:5.6.2-jdk8 AS BUILD
+FROM gradle:5.6.2-jdk11 AS BUILD
 
 WORKDIR /tmp
 RUN cd /tmp \
-  && git clone https://github.com/streamthoughts/kafka-specs.git \
+  && git clone --branch v0.1.0 https://github.com/streamthoughts/kafka-specs.git \
   && cd kafka-specs \
   && gradle distTar
 
