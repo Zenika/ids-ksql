@@ -24,7 +24,11 @@
 +--------------------------------+                    +----------------192.168.33.0/24--------------+
 ```
 
-# Vagrant installation (Ubuntu 18.04)
+# Vagrant installation
+
+Below are detailed instruction for Ubuntu 18.04, for other distributions see [Vagrant official documentation](https://learn.hashicorp.com/tutorials/vagrant/getting-started-install).
+
+_This project doesn't work under Windows, because we need both VirtualBox and Docker to run the full project_
 
 ## Install VirtualBox
 
