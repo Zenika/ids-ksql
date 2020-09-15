@@ -1,6 +1,16 @@
 # ids-ksql
 Demo project for (Intrusion Detection System) IDS with KSQL and Kafka
 
+This project is made of two part:
+* infra: a [Vagrant](https://www.vagrantup.com/) project that simulates a network with a few Virtual Machines
+* Kafka stack: a [docker-compose](https://docs.docker.com/compose/) project running Kafka, Kafka Connect and ksqlDB
+
+# Infra
+
+See [dedicated README.md](infra/README.md).
+
+
+# Kafka stack instructions
 
 ## Create the topic that will contain the network traffic
 
