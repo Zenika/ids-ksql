@@ -6,7 +6,7 @@ RUN cd /tmp \
   && cd kafka-specs \
   && gradle distTar
 
-FROM openjdk:8
+FROM openjdk:11
 COPY --from=BUILD /tmp/kafka-specs/build/distributions/kafka-specs-*.tar /
 RUN tar xf kafka-specs-*.tar
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh .
