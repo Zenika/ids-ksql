@@ -1,24 +1,18 @@
 [Unit]
-Description=Docker container for tshark
-BindsTo=docker.service
-After=docker.service
+Description=Tshark and split
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 Environment=NAME=tshark
 Restart=on-failure
 RestartSec=10
 ExecStartPre=-/bin/mkdir -p /vagrant/data
-ExecStartPre=-/usr/bin/docker kill ${NAME}
-ExecStartPre=-/usr/bin/docker rm ${NAME}
-ExecStart=/usr/bin/docker run --name tshark \
-                          -v /vagrant/data/logs:/logs \
-                          -e INTERFACE=eth1 \
-                          -e LINES_BY_FILE=500 \
-                          --privileged \
-                          --net=host \
-                          tshark
+Environment=INTERFACE=eth1
+Environment=LINES_BY_FILE=500
+Environment=OUTDIR=/vagrant/data
+ExecStart=/vagrant/run-tshark.sh
 
-ExecStop=/usr/bin/docker stop tshark
 
 [Install]
 WantedBy=multi-user.target
